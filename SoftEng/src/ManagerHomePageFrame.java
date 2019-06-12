@@ -32,7 +32,8 @@ import javax.swing.table.TableRowSorter;
 public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimeries>
 	
 	private JPanel centralPanel,mainPanel ,secondPanel, menuPanel;
-	private JPanel EmployeePanel;
+	private JPanel EmployeeMainPanel, EmployeePanel_1,  EmployeePanel_2,  EmployeePanel_3;
+	private JPanel ProgramMainPanel, ProgramPanel_1, ProgramPanel_2, ProgramPanel_3,ProgramPanel_4;
 	
 	private JMenuBar menubar;
 	private JMenu employeeMenu;
@@ -140,7 +141,10 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 			if(e.getSource()== change ) {
 				
 				hrLabel = new JLabel ("Workforce availability");
-				EmployeePanel=new JPanel();
+				EmployeeMainPanel=new JPanel(new BorderLayout());
+				EmployeePanel_1= new JPanel();
+				EmployeePanel_2= new JPanel();
+				EmployeePanel_3= new JPanel();
 				
 				// get all doctors from the database
 				
@@ -209,17 +213,16 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 			    scrollPane = new JScrollPane(doctorsTable);
 				scrollPane.setBounds(36, 37, 407, 79);
 			
-				secondPanel.add(hrLabel);
-				secondPanel.add(scrollPane);
-				secondPanel.add(FindField);
-				secondPanel.add(add);
-				secondPanel.add(remove);
-				/*EmployeePanel.add(hrLabel);
-				EmployeePanel.add(scrollPane);
-				EmployeePanel.add(FindField);
-				EmployeePanel.add(add);
-				EmployeePanel.add(remove);
-				secondPanel.add(EmployeePanel);*/
+				EmployeePanel_1.add(hrLabel);
+				EmployeePanel_2.add(scrollPane);
+				EmployeePanel_3.add(FindField);
+				EmployeePanel_3.add(add);
+				EmployeePanel_3.add(remove);
+				EmployeeMainPanel.add(EmployeePanel_1, BorderLayout.NORTH);
+				EmployeeMainPanel.add(EmployeePanel_2, BorderLayout.CENTER);
+				EmployeeMainPanel.add(EmployeePanel_3, BorderLayout.SOUTH);
+				secondPanel.add(EmployeeMainPanel);
+				
 				pack(); 
 				
 				
@@ -235,6 +238,10 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 				  		 JLabel lb = new JLabel(icon);
 				  		 mainPanel.add(lb);
 				  		
+				  		EmployeeMainPanel=new JPanel(new BorderLayout());
+				  		EmployeePanel_1= new JPanel();
+						EmployeePanel_2= new JPanel(); 
+				  		 
 				  		 lb.addMouseListener(new MouseAdapter() 
 				  		 {
 				  		 	public void mouseClicked(MouseEvent e) 
@@ -243,19 +250,23 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 				  		        new ManagerHomePageFrame(conn);           
 				  		    }
 				  		  });
+				  		 
 				    	  JLabel label = new JLabel("Create a New Employee");
 				    	  JButton add_employee = new JButton("Add Employee");
 				    	  JTextField firstNameField = new JTextField("First Name");
 				    	  JTextField lastNameField = new JTextField("Last  Name");
 				    	  JTextField amField = new JTextField("ΑΜ");
 				    	  
-				       	  
-				    	  secondPanel.add(label, BorderLayout.NORTH);
-				    	  secondPanel.add(firstNameField, BorderLayout.CENTER);
-				    	  secondPanel.add(lastNameField, BorderLayout.CENTER);
-				    	  secondPanel.add(amField, BorderLayout.CENTER);
-				   
-				    	  secondPanel.add(add_employee, BorderLayout.CENTER);
+				    	  EmployeePanel_1.add(label);
+				    	  EmployeePanel_2.add(firstNameField);
+				    	  EmployeePanel_2.add(lastNameField);
+				    	  EmployeePanel_2.add(amField);
+				    	  EmployeePanel_2.add(add_employee);
+				    	  EmployeeMainPanel.add(EmployeePanel_1, BorderLayout.NORTH);
+				    	  EmployeeMainPanel.add(EmployeePanel_2, BorderLayout.CENTER);
+				    
+				    	  secondPanel.add(EmployeeMainPanel);
+				    	  
 				    	  pack();
 				    	  
 				    	  //add_employee -> Button to add a new employee
@@ -340,8 +351,15 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 			}
 			//Button: Program-> Create
 			else if(e.getSource() == create) {
+				
+				ProgramMainPanel= new JPanel(new BorderLayout());
+				ProgramPanel_1=new JPanel();
+				ProgramPanel_2= new JPanel();
+				ProgramPanel_3= new JPanel();
+				ProgramPanel_4= new JPanel();
+				
 				JLabel label= new JLabel("Create - Export TimeTable");
-				JLabel text1 = new JLabel("Number of doctors in db: ");
+				JLabel text1 = new JLabel("Number of doctors in data base: ");
 				JButton show_program = new JButton("Show Program");
 				JButton cancel_but = new JButton("Cancel");
 				
@@ -355,7 +373,7 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 				else // query was successful
 				{
 					// add the number to the text
-					text1.setText(text1.getText() + " '" + NumberOfDocs + "' choose maximum 7");
+					text1.setText(text1.getText() + " '" + NumberOfDocs + "' , choose maximum 7.");
 				}
 			
 				model = new DefaultTableModel();
@@ -391,11 +409,24 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 			    scrollPane = new JScrollPane(doctorsTable);
 				scrollPane.setBounds(36, 37, 407, 79);
 			    
+				
+				
 				secondPanel.add(label, BorderLayout.NORTH);
 				secondPanel.add(text1, BorderLayout.NORTH);
 				secondPanel.add(scrollPane, BorderLayout.WEST);
 				secondPanel.add(show_program, BorderLayout.SOUTH);
 				secondPanel.add(cancel_but, BorderLayout.SOUTH);
+				
+				/*ProgramPanel_1.add(label);
+				ProgramPanel_2.add(text1);
+				ProgramPanel_3.add(scrollPane);
+				ProgramPanel_4.add(show_program);
+				ProgramPanel_4.add(cancel_but);
+				ProgramMainPanel.add(ProgramPanel_1, BorderLayout.NORTH);
+				ProgramMainPanel.add(ProgramPanel_2, BorderLayout.AFTER_LAST_LINE);
+				ProgramMainPanel.add(ProgramPanel_3, BorderLayout.CENTER);
+				ProgramMainPanel.add(ProgramPanel_4, BorderLayout.SOUTH);
+				secondPanel.add(ProgramMainPanel, BorderLayout.CENTER);*/
 				pack();
 				
 				//Message that there are no doctors in the data base
@@ -454,7 +485,6 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 			    		  secondPanel.removeAll();
 				    	  JLabel label= new JLabel();
 				    	  JButton save = new JButton("Save");
-				    	  JButton amendment = new JButton("Amendment");
 				    	  
 				    	  label.setText("Shift's Program ");
 				    	 
@@ -614,7 +644,7 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 				    	  secondPanel.add(label);
 				    	  secondPanel.add(scrollPane2);
 				    	  secondPanel.add(save);	
-				          secondPanel.add(amendment);
+				         
 				          pack();
 				    	   
 				    	  save.addActionListener(new ActionListener()
@@ -629,15 +659,7 @@ public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimerie
 						      }
 						    });
 				    	  
-				    	   amendment.addActionListener(new ActionListener()
-						    {	
-						      public void actionPerformed(ActionEvent e)
-						      {
-						    	  JOptionPane.showMessageDialog(secondPanel, "Choose boxes from table with double click and change the First And the Last Name ");
-						    	  //Έλεγχός αν αυτά τα ονόματα υπάρχουν στην βάση
-						    	   
-						      }
-						    });
+				    	
 			    		  
 			    	  }
 			    	  
