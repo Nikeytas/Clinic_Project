@@ -1,4 +1,11 @@
+/*
+ * 
+ */
+
+
+
 import java.sql.SQLException;
+
 
 public class Main {
 
@@ -15,8 +22,6 @@ public class Main {
 		
 		SupplyChainMainFrame.count = 0;
 		new GlobalHomeFrame(conn);
-		
-		
 		
 	}
 	

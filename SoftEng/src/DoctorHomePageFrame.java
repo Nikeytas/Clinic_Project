@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-public class DoctorHomePageFrame extends JFrame {
+public class DoctorHomePageFrame extends JFrame { //This name was <GUIGiatros2>
 	
 	private JPanel centralPanel, mainPanel, secondPanel;
 	

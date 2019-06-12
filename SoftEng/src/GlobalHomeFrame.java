@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class GlobalHomeFrame extends JFrame {
+public class GlobalHomeFrame extends JFrame { //This name was <Basic GUI> 
 	
 	private JButton pharmacist = new JButton("Pharmacist");
 	private JButton manager = new JButton("Manager  ");

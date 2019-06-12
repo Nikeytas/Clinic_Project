@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 
-public class DoctorPreferenceFrame extends JFrame{
+public class DoctorPreferenceFrame extends JFrame{ //This  name was <GUIProgramma> 
 	
 	private JPanel centralPanel;
 	

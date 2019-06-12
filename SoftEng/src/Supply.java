@@ -5,7 +5,8 @@ import java.util.Iterator;
 
 public class Supply extends Order {
 
-	// Creates a new object type of "Supply". In constructor the two list of the hyperclass "Order" take value "null" 
+	/* Creates a new object type of "Supply". In constructor the two 
+	 * list of the hyperclass "Order" take value "null".  */
 	
 	public Supply(db connection) {
 			
@@ -18,15 +19,22 @@ public class Supply extends Order {
 	}
 	
 		
-	// Prostithetai ena neo farmako stis lista me ta farmaka kai h posotita tou sthn antistoixi thesi sthn lista me tis posothtes.
-	// Taytoxrona ayxanetai h diathesimotita tou farmakou apo to iatreio.
+	/* Adds a new medicine in ArrayList of existing medicines and its quantity
+	 * in the equivalent position in ArrayList of quantities of the existing medicines. 
+	 * At the same time its availability is increased. 
+	 * Input: Drug orderedMedicine, int quantity
+	 * Output: - */
 		
-	public void addMedicineInTheOrder (Drug orderedMedicine,int quantity) {
+	public void addMedicineInTheOrder (Drug orderedMedicine, int quantity) {
 			
 		super.addMedicineInTheOrder(orderedMedicine, quantity);
 		orderedMedicine.setAvailability(orderedMedicine.getAvailability() + quantity);
 		
 	}
+	
+	/* Searches and deletes a medicine from existing medicines in Order. 
+	 * Input: Drug orderedMedicine
+	 * Output: - */
 	
 	public void deleteMedicineFronTheOrder(Drug orderedMedicine) {
 		
@@ -46,10 +54,11 @@ public class Supply extends Order {
 		}
 	}
 		
-	// Ypologizetai kai epistrefetai to synoliko kostos ths paraggelias-anefodiasmou.
-	// Ginetai h paradoxi oti kathe farmako kostizei sto iatreio to 1/3.
-	// apo thn timi sthn opoia tha to poulisei ston astheni.
-
+	/* Calculates and returns total cost of Supply.
+	 * Acceptance that every medicine supply costs 1/3 of its market price. 
+	 * Input: -
+	 * Output: double value of order's total cost. */
+	
 	public double getTotalCost() {
 
 		totalCost = 0;

@@ -16,15 +16,27 @@ public class PrescriptionOrdersTemporalBase {
 	private static ArrayList<Integer> quantityOfMedicines = new ArrayList<Integer>();
 	private static String date = getDateTime();
 	
+	/* Getter for "medicines" list.
+	 * Input: -
+	 * Output: ArrayList<Drug> */
+	
 	public static ArrayList<Drug> getListOfMedicinesFromAllTheDailyOrders(){
 		
 		return medicines;
 	}
 	
+	/* Getter for "quantityOfMedicines" list.
+	 * Input: -
+	 * Output: ArrayList<Integer> */
+	
 	public static ArrayList<Integer> getListOfQuantityOfMedicinesFromAllTheDailyOrders(){
 		
 		return quantityOfMedicines;
 	}
+	
+	/* Method which is checking if a drug exists in a file where daily orders are saved. 
+	 * Input: String name
+	 * Output: Boolean value */
 	
 	public static boolean checkIfMedicineExistsInTheOrderFile(String name) {
 		
@@ -35,12 +47,23 @@ public class PrescriptionOrdersTemporalBase {
 		return false;
 	}
 	
+	/* Method which is adding a medicine in the daily orders list. 
+	 * Input: Drug medicine, int quantity
+	 * Output: - */
+	
 	public static void addMedicineInTheListOfMedicinesFromAllTheDailyOrders(Drug medicine,int quantity) {
+		
+		/* Checking if input medicine exists in the daily orders file.
+		 * If it doesn't exist, the method it is adding the medicine in the daily orders list. */
 		
 		if(!checkIfMedicineExistsInTheOrderFile(medicine.getName())) {
 			medicines.add(medicine);
 			quantityOfMedicines.add(quantity);
 		}
+		
+		/* If the input medicine exists in the daily orders file, the method is trying to find the index of this medicine in the list and
+		 * is changing the bought quantity of the specific medicine. */
+		
 		else{
 			
 			int index = PrescriptionOrdersTemporalBase.findAndReturnIndexOfMedicineInTheListOfMedicinesFromAllTheDailyOrders(medicine.getName());
@@ -50,22 +73,29 @@ public class PrescriptionOrdersTemporalBase {
 				quantityOfMedicines.set(index, newQuantityOfMedicine);
 		
 			}
-			
-			
-			
 		}
 	
+	/* Method which is writing daily orders list and the quantities of every medicine in a file.
+	 * Input: ArrayList<Drug> medicinesInOrder, ArrayList<Integer> quantityOfMedicinesInOrder
+	 * Output: - */
+	
 	public static void writeToOrderFile(ArrayList<Drug> medicinesInOrder,ArrayList<Integer> quantityOfMedicinesInOrder) {
+		
+		/* Informing the two list of the class with the daily orders information which are being saved in a file. */
 		
 		PrescriptionOrdersTemporalBase.readFromOrderFile();
 		
 		String fileName = "History For Prescription.txt";
 		
+		/* Adding medicines from the an order in the daily orders list. 
+		 * If a medicine exists in the daily orders list the method is changing the bought quantity of this medicine. */
 		
 		for(int i=0;i<medicinesInOrder.size();i++) {
 			
 			PrescriptionOrdersTemporalBase.addMedicineInTheListOfMedicinesFromAllTheDailyOrders(medicinesInOrder.get(i), quantityOfMedicinesInOrder.get(i));
 		}		
+		
+		/* Informing the file which saves the daily orders information with the updates of the daily orders list. */
 		
 		try
 		{
@@ -86,8 +116,12 @@ public class PrescriptionOrdersTemporalBase {
 		{
 		    System.err.println("IOException: " + ioe.getMessage());
 		}
+		
 	}
 	
+	/* Method which is returning the date ( With specific format ).
+	 * Input: -
+	 * Output: String */
 	
 	public static String getDateTime() {
 		
@@ -96,13 +130,20 @@ public class PrescriptionOrdersTemporalBase {
         return dateFormat.format(date);
     }
 	
-	
+	/* Method which is searching a medicine in the daily orders list. If the medicine exists in the daily orders list the method
+	 * is returning medicine's index. If the medicine does'nt exist the method is returning -1. 
+	 * Input: String name
+	 * Output: Int */
 	
 	public static int findAndReturnIndexOfMedicineInTheListOfMedicinesFromAllTheDailyOrders(String name) {
 		
 		int index = -1;
 		
+		/* Searching to find if the medicine exists in the daily orders list. */
+		
 		boolean exists = PrescriptionOrdersTemporalBase.checkIfMedicineExistsInTheOrderFile(name);
+		
+		/* Searching to find medicine's index in the daily orders list. */
 		
 		if(exists) {
 			
@@ -115,6 +156,11 @@ public class PrescriptionOrdersTemporalBase {
 			
 		
 	}
+	
+	/* Method which is reading from a file all the information about the daily orders. The method is writing the values
+	 * from the file to the corresponding lists.
+	 * Input: -
+	 * Output: - */
 	
 	public static void readFromOrderFile() {
 	
@@ -152,6 +198,10 @@ public class PrescriptionOrdersTemporalBase {
 		
 		
 	}
+	
+	/* Getter for "date" attribute.
+	 * Input: -
+	 * Output: String */
 	
 	public static String getDate(){
 		

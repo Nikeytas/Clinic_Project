@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 
-public class DoctorLogInFrame extends JFrame {
+public class DoctorLogInFrame extends JFrame { //This name was <GUIGiatros1>
     private JPanel panel1,panel2, central_panel;
     private JTextField amField;
     private JTextField codeField;

@@ -1,3 +1,4 @@
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -43,15 +44,22 @@ public class StatisticsFrame extends JFrame{
 
 	public StatisticsFrame(db connection) {
 		
+		/* Creating the connection with base */
+		
 		conn= connection;
 		
-		// Dimiourgia buttons
+		/* Creating buttons.
+		 * 1. dailyStatisticsButton --> Makes the daily prescription statistics.
+		 * 2. generalStatisticsButton --> Makes the general prescription statistics.
+		 * 3. timePeriodStatisticsButton --> Open a new frame where are exist more choices for the user. ( For time period statistics ) */
 		
 		dailyStatisticsButton = new JButton("Daily Statistics");
 		generalStatisticsButton = new JButton("General Statistics");
 		timePeriodStatisticsButton = new JButton("Time Period Statistics");
 		
-		// Dimiourgia Listener gia ta buttons
+		/* Creating listeners for the buttons that has been created above */
+		
+		/* First button Listener */
 		
 		timePeriodStatisticsButton.addActionListener(new ActionListener() {
 	
@@ -64,10 +72,14 @@ public class StatisticsFrame extends JFrame{
 			
 		});
 		
+		/* Second button Listener */
+		
 		generalStatisticsButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				/* Creating bar chart by using the "soldUnits" information of every drug in the storage of the clinic */
 				
 				DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
 			    
@@ -85,11 +97,19 @@ public class StatisticsFrame extends JFrame{
 			            true,true,false  
 			           ); 
 			    
+			    /* Adding the bar chart in the chart panel */
+			    
 			    ChartPanel BarPanel=new ChartPanel(chart);  
+			    
+			    /* Creating a frame for the bar chart */
 			    
 			    JFrame example = new JFrame("Bar Chart");
 			    
+			    /* Adding the chart panel in the content pane of the frame that has been created above */
+			    
 			    example.setContentPane(BarPanel);
+			    
+			    /* Adding trappings of the frame that has been created above */
 			    
 			    example.setSize(800, 400);  
 			    example.setLocationRelativeTo(null);  
@@ -98,11 +118,17 @@ public class StatisticsFrame extends JFrame{
 			    }
 		});
 		
+		/* Third button Listener */
+		
 		dailyStatisticsButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 				
+				/* Getting daily orders information from a file */
+				
 				PrescriptionOrdersTemporalBase.readFromOrderFile();
+				
+				/* Creating bar chart by using the above information */
 				
 				DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
 			    
@@ -120,11 +146,19 @@ public class StatisticsFrame extends JFrame{
 			            true,true,false  
 			           ); 
 			    
+			    /* Adding the bar chart in the chart panel */
+			    
 			    ChartPanel BarPanel=new ChartPanel(chart);  
+			    
+			    /* Creating a frame for the bar chart */
 			    
 			    JFrame example = new JFrame("Daily Bar Chart");
 			    
+			    /* Adding the chart panel in the content pane of the frame that has been created above */
+			    
 			    example.setContentPane(BarPanel);
+			    
+			    /* Adding trappings of the frame that has been created above */
 			    
 			    example.setSize(800, 400);  
 			    example.setLocationRelativeTo(null);  
@@ -134,18 +168,18 @@ public class StatisticsFrame extends JFrame{
 			}
 		});
 		
-		// Dimiourgia baras menu
+		/* Creating menu bar for the panel */
 		
 		mb = new JMenuBar();
 		
-		// Dimiourgia twn triwn menu
+		/* Creating menus that will be added in the main menu ( menu bar ) */
 		
 		orderMenu = new JMenu("Order");
 		storageMenu = new JMenu("Storage");
 		statisticsMenu = new JMenu("Statistics");
 		centralMenu_Menu = new JMenu("Central Menu");
 		
-		// Dimiourgia epilogwn-pediwn gia kathe lista ( Paraggelia, Apothiki, Statistika )
+		/* Creating menu items for every menu */
 		
 		i1 = new JMenuItem("Prescription");  
 	    i2 = new JMenuItem("Supply");  
@@ -154,7 +188,7 @@ public class StatisticsFrame extends JFrame{
 	    i5 = new JMenuItem("Show Statistics");
 	    iCentralMenu = new JMenuItem("Go to Central Menu");
 	    
-	    // Eisagwgi ActionListener gia ta pedia tou Menu
+	    /* Adding ActionListener for every item of the menus */
 	    
 	    JTablePopupMenuListener listener = new JTablePopupMenuListener();
 	    i1.addActionListener(listener);
@@ -164,7 +198,7 @@ public class StatisticsFrame extends JFrame{
 	    i5.addActionListener(listener);
 	    iCentralMenu.addActionListener(listener);
 	    
-	    // Prosthiki eikonas kai listener gia aythn
+	    /* Creating and adding picture and listener for it in this frame */
 		
 	 		ImageIcon icon = new ImageIcon("hospital1.png");
 	 		JLabel lb = new JLabel(icon);
@@ -179,7 +213,7 @@ public class StatisticsFrame extends JFrame{
 	 			
 	 		}	);
 	    
-	    // Eisagwgi twn pediwn sto antistoixo menu
+	 	/* Adding items in their menus */
 	    
 	    centralMenu_Menu.add(iCentralMenu);
 	    
@@ -192,7 +226,7 @@ public class StatisticsFrame extends JFrame{
 	    statisticsMenu.add(i5);
 	    
 	    
-	    // Eisagwgi twn menu sth bara menu
+	    /* Adding all the menus in the menu bar */
 	    
 	    mb.add(centralMenu_Menu);
 	    mb.add(orderMenu);
@@ -200,18 +234,20 @@ public class StatisticsFrame extends JFrame{
 	    mb.add(statisticsMenu);
 	    mb.add(lb);
 	    
-	    // Dimiourgia Panel
+	    /* Creating panels */
 	    
 	    menuPanel = new JPanel();
 	    panel = new JPanel();
 	    buttonsPanel = new JPanel();
 	    
-	    // Prosthiki olwn twn menu sto antistoixo panel 
+	    /* Adding menu bar in a panel that has been created only for menus.
+	     * Setting alignment for the menuPanel. */
 	    
 	    menuPanel.add(mb);
 	    menuPanel.setAlignmentX(Component.TOP_ALIGNMENT);
 	    
-	    // Prosthiki olwn twn buttons sto antistoixo panel
+	    /* Adding buttons in a panel that has been created only for buttons.
+	     * Setting alignment for the buttonsPanel. */
 	    
 	    buttonsPanel.add(dailyStatisticsButton);
 	    buttonsPanel.add(timePeriodStatisticsButton);
@@ -219,20 +255,24 @@ public class StatisticsFrame extends JFrame{
 	    
 	    buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    
-	    // Prosthiki twn parapanw panel sto teliko panel 
+	    /* Adding all the panels in the main panel of the frame. */
 	    
 	    panel.add(menuPanel);
 	    
 	    panel.add(buttonsPanel);
 
+	    /* Adding main panel in the content pane of the frame */
 	    
 		this.setContentPane(panel);
 		
-		// Set frame in the center of the pc
+		// Set frame in the center of the screen 
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screenSize.width - this.getWidth()) / 3;
 		int y = (screenSize.height - this.getHeight()) / 3;
 		this.setLocation(x, y);
+		
+		/* Adding trappings of the frame */
 		
 		this.setVisible(true);;
 		this.setSize(600,400);
@@ -240,7 +280,9 @@ public class StatisticsFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	class JTablePopupMenuListener implements ActionListener {
+/* Listener that determines the communication and the metaphor among the frames of the program. */
+	
+class JTablePopupMenuListener implements ActionListener {
 
 
 		public void actionPerformed(ActionEvent e) {

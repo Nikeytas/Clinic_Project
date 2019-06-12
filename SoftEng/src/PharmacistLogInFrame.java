@@ -26,8 +26,16 @@ public class PharmacistLogInFrame extends JFrame{
 	private db conn;
 	
 	public PharmacistLogInFrame(db connection) {
+		
+		/* Creating the connection with base. */
+		
 		conn=connection;
+		
+		/* Creating panel. */
+		
 		panel = new JPanel();
+		
+		/* Creating necessary fields for the panel (Tite, TextField, confirm button, picture). */
 		
 		firstTitleOfPage = new JLabel("Central Page Of Pharmacist. Enter Password: ");
 		textFieldForPassword = new JPasswordField(10);
@@ -35,6 +43,8 @@ public class PharmacistLogInFrame extends JFrame{
 		
 		ImageIcon icon = new ImageIcon("hospital1.png");
 		JLabel lb = new JLabel(icon);
+		
+		/* Creating and adding mouse listener. */
 		
 		lb.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) 
@@ -46,10 +56,13 @@ public class PharmacistLogInFrame extends JFrame{
 			
 		});
 		
-
+		/* Adding title, textField and confirm button in panel. */
+		
 		panel.add(firstTitleOfPage);
 		panel.add(textFieldForPassword);
 		panel.add(logInButton);
+		
+		/* Creating and adding key listener for textField. */
 		
 		textFieldForPassword.addKeyListener(new KeyAdapter() {
 	        
@@ -61,16 +74,14 @@ public class PharmacistLogInFrame extends JFrame{
 
 	    });
 		
-
+		/* Creating and adding listener for confirm button. */
 		logInButton.addActionListener(new ActionListener() {
 
 			
 			public void actionPerformed(ActionEvent arg0) {
 				
-				/*Manager Code is 1111
-				 * The given password must be the same with database's password
-				 * All the Managers have the same password
-				 */
+				/* Pharmacist's Code is 2222
+				 * The given password must be the same with database's password */
 				
 				String result = textFieldForPassword.getText();
 	
@@ -92,6 +103,8 @@ public class PharmacistLogInFrame extends JFrame{
 		});
 		
 		
+		/* Adding all fields (title, spinner, buttons) in the main panel. */
+		
 		panel.add(lb);
 		panel.add(firstTitleOfPage);
 
@@ -100,13 +113,15 @@ public class PharmacistLogInFrame extends JFrame{
 
 		panel.add(logInButton);
 		
+		/* Centered components. */
 		
-		panel.setLayout(new FlowLayout()); //Centered components
+		panel.setLayout(new FlowLayout()); 
 
+		/* Adding main panel in the content pane of the frame. */
 		
 		this.setContentPane(panel);
 		
-		// Set frame in the center of the pc
+		// Set frame in the center of the screen. */
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screenSize.width - this.getWidth()) / 3;
 		int y = (screenSize.height - this.getHeight()) / 3;

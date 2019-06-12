@@ -3,7 +3,7 @@ import java.util.Iterator;
 
 public class Prescription extends Order {
 
-	// Dimiourgeitai ena kainourgio antikeimeno typou Prescription.
+	/* Creates a new Object type of Prescription. */
 	
 	public Prescription(db connection) {
 		
@@ -15,18 +15,23 @@ public class Prescription extends Order {
 	
 	}
 	
-	// Prostithetai ena neo farmako stis lista me ta farmaka kai h posotita tou sthn antistoixi thesi sthn lista me tis posothtes.
-	// Taytoxrona meiwnetai h diathesimotita tou farmakou apo to iatreio.
+	/* Adds a new medicine in ArrayList of existing medicines and its quantity
+	 * in the equivalent position in ArrayList of quantities of the existing medicines.
+	 * At the same time its availability is reduced. 
+	 * Input: Drug orderedMedicine, int quantity
+	 * Output: - */
 	
 	public void addMedicineInTheOrder (Drug orderedMedicine,int quantity) {
-		
-		// xreiazetai sto gui na ginetai elegxos diathesimotitas
 		
 		super.addMedicineInTheOrder(orderedMedicine, quantity);
 		orderedMedicine.setAvailability(orderedMedicine.getAvailability() - quantity);
 		orderedMedicine.setSoldUnits(orderedMedicine.getSoldUnits() + quantity);
 	
 	}
+	
+	/* Searches and deletes a medicine from existing medicines in Order. 
+	 * Input: Drug orderedMedicine
+	 * Output: - */
 	
 	public void deleteMedicineFronTheOrder(Drug orderedMedicine) {
 	
@@ -47,7 +52,9 @@ public class Prescription extends Order {
 		}
 	}
 	
-	// Ypologizetai kai epistrefetai to synoliko kostos ths syntaghs.
+	/* Calculates and returns total cost of Prescription. 
+	 * Input: -
+	 * Output: double value of order's total cost. */
 
 	public double getTotalCost() {
 		

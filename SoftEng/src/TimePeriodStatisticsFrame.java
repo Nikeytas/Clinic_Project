@@ -39,7 +39,7 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	private JPanel menuPanel;
 	private JMenuItem i1,i2,i3,i4,i5,iCentralMenu;
 
-	private JButton supplySatisticsButton;
+	private JButton supplyStatisticsButton;
 	private JButton prescriptionStatisticsButton;
 	private JButton goBackButton;
 	
@@ -54,9 +54,12 @@ public class TimePeriodStatisticsFrame extends JFrame{
 
 	public TimePeriodStatisticsFrame(db connection) {
 		
+		/* Creating the connection with base */
+		
 		conn= connection;
 			
-		// Dimiourgia text field
+		/* Creating text fields with titles where the user will write the two dates.
+		 * The two dates make the period that user is interesting to get information about orders ( Supply orders or Prescription orders ). */
 		
 		firstDateTextField = new JTextField();
 		firstDateTextField.setBorder(new TitledBorder("First Date (ex 25-04-1999)"));
@@ -67,15 +70,18 @@ public class TimePeriodStatisticsFrame extends JFrame{
 		secondDateTextField.setPreferredSize(new Dimension(200,54));
 		
 		
-		// Dimiourgia buttons
+		/* Creating buttons.
+		 * 1. supplyStatisticsButton --> Makes the supply statistics for the period that user wants.
+		 * 2. prescriptionStatisticsButton --> Makes the prescription statistics for the period that user wants.
+		 * 3. goBackButton --> Returns to the previous page. */
 		
-		supplySatisticsButton = new JButton("Supply Time Period Statistics");
+		supplyStatisticsButton = new JButton("Supply Time Period Statistics");
 		prescriptionStatisticsButton = new JButton("Prescription Time Period Statistics");
 		goBackButton = new JButton("Return to the previous page");
 		
-		// Dimioyrgia listener gia ta buttons
+		/* Creating listeners for the buttons that has been created above */
 		
-		// First button Listener
+		/* First button Listener */
 		
 		goBackButton.addActionListener(new ActionListener() {
 
@@ -88,13 +94,17 @@ public class TimePeriodStatisticsFrame extends JFrame{
 			
 		});
 		
-		supplySatisticsButton.addActionListener(new ActionListener() {
+		supplyStatisticsButton.addActionListener(new ActionListener() {
 
 			
 			public void actionPerformed(ActionEvent arg0) {
 				
+				/* Taking from the text fields what user has entered */
+				
 				String firstDateText = firstDateTextField.getText();
 				String secondDateText = secondDateTextField.getText();
+				
+				/* Checking if the dates that user entered are valid */
 				
 				if( isValidDate(firstDateText) && isValidDate(secondDateText) ) {
 					
@@ -103,7 +113,12 @@ public class TimePeriodStatisticsFrame extends JFrame{
 					ArrayList<Integer> quantities = new ArrayList<Integer>();
 					ArrayList<String> medicineNames = new ArrayList<String>();
 					
+					/* Taking information from the base about the orders that have been done in the specific period that user entered */
+					
 					conn.getInfoFromOrderDataBaseForSpecificDates(false,firstDateText , secondDateText, id, quantities);
+					
+					/* Taking the names of the drugs that have been in the orders.
+					 * Talking about the orders that have been done in the specific period that user entered. */
 					
 					for(int j=0;j<id.size();j++) {
 						for(int i=0;i<Storage.getMedicineList().size();i++) {
@@ -111,6 +126,8 @@ public class TimePeriodStatisticsFrame extends JFrame{
 								medicineNames.add(Storage.getMedicineList().get(i).getName());
 							}
 						}
+					
+					/* Creating bar chart by using the above information */
 					
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
 				    
@@ -128,11 +145,19 @@ public class TimePeriodStatisticsFrame extends JFrame{
 				            true,true,false  
 				           ); 
 				    
+				    /* Adding the bar chart in the chart panel */
+				    
 				    ChartPanel BarPanel=new ChartPanel(chart);  
+				    
+				    /* Creating a frame for the bar chart */
 				    
 				    JFrame example = new JFrame("Bar Chart");
 				    
+				    /* Adding the chart panel in the content pane of the frame that has been created above */
+				    
 				    example.setContentPane(BarPanel);
+				    
+				    /* Adding trappings of the frame that has been created above */
 				    
 				    example.setSize(800, 400);  
 				    example.setLocationRelativeTo(null);  
@@ -151,8 +176,12 @@ public class TimePeriodStatisticsFrame extends JFrame{
 			
 			public void actionPerformed(ActionEvent arg0) {
 				
+				/* Taking from the text fields what user has entered */
+				
 				String firstDateText = firstDateTextField.getText();
 				String secondDateText = secondDateTextField.getText();
+				
+				/* Checking if the dates that user entered are valid */
 		
 				if( isValidDate(firstDateText) && isValidDate(secondDateText) ) {
 					
@@ -160,7 +189,12 @@ public class TimePeriodStatisticsFrame extends JFrame{
 					ArrayList<Integer> quantities = new ArrayList<Integer>();
 					ArrayList<String> medicineNames = new ArrayList<String>();
 					
+					/* Taking information from the base about the orders that have been done in the specific period that user entered */
+					
 					conn.getInfoFromOrderDataBaseForSpecificDates(true,firstDateText , secondDateText, id, quantities);
+					
+					/* Taking the names of the drugs that have been in the orders.
+					 * Talking about the orders that have been done in the specific period that user entered. */
 					
 					for(int j=0;j<id.size();j++) {
 						for(int i=0;i<Storage.getMedicineList().size();i++) {
@@ -168,6 +202,8 @@ public class TimePeriodStatisticsFrame extends JFrame{
 								medicineNames.add(Storage.getMedicineList().get(i).getName());
 							}
 						}
+					
+					/* Creating bar chart by using the above information */
 					
 					DefaultCategoryDataset dataset = new DefaultCategoryDataset();   
 				    
@@ -184,11 +220,19 @@ public class TimePeriodStatisticsFrame extends JFrame{
 				            true,true,false  
 				           ); 
 				    
+				    /* Adding the bar chart in the chart panel */
+				    
 				    ChartPanel BarPanel=new ChartPanel(chart);  
+				    
+				    /* Creating a frame for the bar chart */
 				    
 				    JFrame example = new JFrame("Bar Chart");
 				    
+				    /* Adding the chart panel in the content pane of the frame that has been created above */
+				    
 				    example.setContentPane(BarPanel);
+				    
+				    /* Adding trappings of the frame that has been created above */
 				    
 				    example.setSize(800, 400);  
 				    example.setLocationRelativeTo(null);  
@@ -200,18 +244,18 @@ public class TimePeriodStatisticsFrame extends JFrame{
 		});
 		
 		
-		// Dimiourgia baras menu
+		/* Creating menu bar for the panel */
 		
 		mb = new JMenuBar();
 		
-		// Dimiourgia twn triwn menu
+		/* Creating menus that will be added in the main menu ( menu bar ) */
 		
 		orderMenu = new JMenu("Order");
 		storageMenu = new JMenu("Storage");
 		statisticsMenu = new JMenu("Statistics");
 		centralMenu_Menu = new JMenu("Central Menu");
 		
-		// Dimiourgia epilogwn-pediwn gia kathe lista ( Paraggelia, Apothiki, Statistika )
+		/* Creating menu items for every menu */
 		
 		i1 = new JMenuItem("Prescription");  
 	    i2 = new JMenuItem("Supply");  
@@ -220,7 +264,7 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	    i5 = new JMenuItem("Show Statistics");
 	    iCentralMenu = new JMenuItem("Go to Central Menu");
 	    
-	    // Eisagwgi ActionListener gia ta pedia tou Menu
+	    /* Adding ActionListener for every item of the menus */
 	    
 	    JTablePopupMenuListener listener = new JTablePopupMenuListener();
 	    i1.addActionListener(listener);
@@ -230,7 +274,7 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	    i5.addActionListener(listener);
 	    iCentralMenu.addActionListener(listener);
 	    
-	    // Prosthiki eikonas kai listener gia aythn
+	    /* Creating and adding picture and listener for it in this frame */
 		
 	 		ImageIcon icon = new ImageIcon("hospital1.png");
 	 		JLabel lb = new JLabel(icon);
@@ -245,7 +289,7 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	 			
 	 		}	);
 	    
-	    // Eisagwgi twn pediwn sto antistoixo menu
+	 	/* Adding items in their menus */
 	    
 	    centralMenu_Menu.add(iCentralMenu);
 	    
@@ -258,7 +302,7 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	    statisticsMenu.add(i5);
 	    
 	    
-	    // Eisagwgi twn menu sth bara menu
+	    /* Adding all the menus in the menu bar */
 	    
 	    mb.add(centralMenu_Menu);
 	    mb.add(orderMenu);
@@ -266,33 +310,36 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	    mb.add(statisticsMenu);
 	    mb.add(lb);
 	    
-	    // Dimiourgia Panel
+	    /* Creating panels */
 	    
 	    menuPanel = new JPanel();
 	    panel = new JPanel();
 	    buttonsPanel = new JPanel();
 	    textFieldsPanel = new JPanel();
 	    
-	    // Prosthiki olwn twn menu sto antistoixo panel 
+	    /* Adding menu bar in a panel that has been created only for menus.
+	     * Setting alignment for the menuPanel. */
 	    
 	    menuPanel.add(mb);
 	    menuPanel.setAlignmentX(Component.TOP_ALIGNMENT);
 	    
-	    // Prosthiki olwn twn buttons sto antistoixo panel
+	    /* Adding buttons in a panel that has been created only for buttons.
+	     * Setting alignment for the buttonsPanel. */
 	    
-	    buttonsPanel.add(supplySatisticsButton);
+	    buttonsPanel.add(supplyStatisticsButton);
 	    buttonsPanel.add(prescriptionStatisticsButton);
 	    
 	    buttonsPanel.setAlignmentX(Component.BOTTOM_ALIGNMENT);
 	    
-	    // Prosthiki owln twn textFields sto antistoixo panel
+	    /* Adding text fields in a panel that has been created only for text fields.
+	     * Setting alignment for the textFieldsPanel. */
 	    
 	    textFieldsPanel.add(firstDateTextField);
 	    textFieldsPanel.add(secondDateTextField);
 	    
 	    textFieldsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    
-	    // Prosthiki twn parapanw panel sto teliko panel 
+	    /* Adding all the panels in the main panel of the frame. */
 	    
 	    panel.add(menuPanel);
 	    
@@ -302,22 +349,52 @@ public class TimePeriodStatisticsFrame extends JFrame{
 	    
 	    panel.add(goBackButton);
 		
+	    /* Adding main panel in the content pane of the frame */
 		
 		this.setContentPane(panel);
 		
-		// Set frame in the center of the pc
+		// Set frame in the center of the screen
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screenSize.width - this.getWidth()) / 3;
 		int y = (screenSize.height - this.getHeight()) / 3;
-		this.setLocation(x, y);
 		
+		/* Adding trappings of the frame */
+		
+		this.setLocation(x, y);
 		this.setVisible(true);;
 		this.setSize(600,400);
 		this.setTitle("/Supply Chain/Pharmacist/Statistics/Show Statistics/Time Period Statistics");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	class JTablePopupMenuListener implements ActionListener {
+	/* Method which returns a boolean value. This method checks if a date is valid according to a specific format.
+	 * Input: String date
+	 * Output: boolean */
+	
+	public static boolean isValidDate(String date) 
+    { 
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+        /* Input to be parsed should strictly follow the defined date format above. */
+		
+        format.setLenient(false);
+
+        try {
+        	
+            format.parse(date);
+            return true;
+            
+        } catch (ParseException e) {
+        	
+        	JOptionPane.showMessageDialog(null,"Wrong format of date!","Error..",JOptionPane.ERROR_MESSAGE);
+        	return false;
+        }
+    } 
+	
+/* Listener that determines the communication and the metaphor among the frames of the program. */
+	
+class JTablePopupMenuListener implements ActionListener {
 
 
 		public void actionPerformed(ActionEvent e) {
@@ -363,26 +440,5 @@ public class TimePeriodStatisticsFrame extends JFrame{
 		}
 			
 	 }
-	
-	public static boolean isValidDate(String date) 
-    { 
-		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
-        // Input to be parsed should strictly follow the defined date format
-        // above.
-		
-        format.setLenient(false);
-
-        try {
-        	
-            format.parse(date);
-            return true;
-            
-        } catch (ParseException e) {
-        	
-        	JOptionPane.showMessageDialog(null,"Wrong format of date!","Error..",JOptionPane.ERROR_MESSAGE);
-        	return false;
-        }
-    } 
-
 }
+

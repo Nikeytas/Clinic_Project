@@ -1,42 +1,4 @@
-02/06/2019
+07/06/2019
 
-2 viagra 30
-4 Panadol 13
-3 lexotanil 1
-1 xanax 13
-5 Algofren 12
-2 viagra 30
-4 Panadol 25
-3 lexotanil 1
-1 xanax 25
-5 Algofren 24
-2 viagra 30
-4 Panadol 13
-3 lexotanil 1
-1 xanax 13
-5 Algofren 12
-2 viagra 42
-4 Panadol 37
-3 lexotanil 1
-1 xanax 25
-5 Algofren 36
-2 viagra 30
-4 Panadol 13
-3 lexotanil 1
-1 xanax 13
-5 Algofren 12
-2 viagra 30
-4 Panadol 25
-3 lexotanil 1
-1 xanax 25
-5 Algofren 24
-2 viagra 30
-4 Panadol 13
-3 lexotanil 1
-1 xanax 13
-5 Algofren 12
-2 viagra 42
-4 Panadol 37
-3 lexotanil 1
-1 xanax 25
-5 Algofren 36
+2 viagra 148
+4 Panadol 200

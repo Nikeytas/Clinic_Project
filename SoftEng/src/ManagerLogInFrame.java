@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 
-public class ManagerLogInFrame extends JFrame  {
+public class ManagerLogInFrame extends JFrame  {// This name was <GUIDieuthinti1> 
 
 	private JPasswordField code_pass = new JPasswordField(10);
 	

@@ -46,22 +46,28 @@ public class DeleteFrame extends JFrame {
 	private JMenuItem i1,i2,i3,i4,i5,iCentralMenu;
 	private JTable storageTable;
 	private JTable deleteTable;
-	private DefaultTableModel storageModel,basketModel;
+	private DefaultTableModel storageModel,deleteModel;
 	private Order order;
 	private db conn;
 
 	
 	public DeleteFrame(db connection) {
-		conn=connection;
-				//Δημιουργία μπάρας μενού
+				
+				/* Creating the connection with base */
+		
+				conn=connection;
+		
+				/* Creating menu bar */
+				
 				mb = new JMenuBar();
 	
-				//Δημιουργία για κουμπί καταχώρησης
+				/* Create delete button and adding listener for it */
+				
 				confirm = new JButton("Delete Medicine(s)");
 				ButtonListenerDeleteButton deleteButton = new ButtonListenerDeleteButton();
 				confirm.addActionListener(deleteButton);
 				
-				// Prosthiki eikonas kai listener gia aythn
+				/* Creating and adding picture and listener for it in this frame */
 				
 				ImageIcon icon = new ImageIcon("hospital1.png");
 				JLabel lb = new JLabel(icon);
@@ -78,17 +84,25 @@ public class DeleteFrame extends JFrame {
 						
 	
 
-			    //Πίνακες
+			    /* Creating model for the storage and the delete table */
+				
 				storageModel = new DefaultTableModel();
-			    basketModel = new DefaultTableModel();
+			    deleteModel = new DefaultTableModel();
 			    
+			    /* Adding columns in every model of the tables ( storage model and delete model) */
+				
 			    storageModel.addColumn("Id");
 			    storageModel.addColumn("Name");
 			    storageModel.addColumn("Availability");
 			    
-			    basketModel.addColumn("Id");
-			    basketModel.addColumn("Name");
-			    basketModel.addColumn("Quantity");
+			    deleteModel.addColumn("Id");
+			    deleteModel.addColumn("Name");
+			    deleteModel.addColumn("Quantity");
+			    
+			    
+			    /* Adding drugs information in the storage Model (name, id, availability). All these information are 
+			     * being taken from the list that exists in class "Storage" 
+			     * which list has all the drugs of the clinic */
 				
 			    String medicineName = null;
 			    String medicineId = null;
@@ -102,36 +116,37 @@ public class DeleteFrame extends JFrame {
 			    	storageModel.addRow(new Object[] {medicineId,medicineName,medicineAvailability});
 			    }
 				
-			    // Dimiourgia tou pinaka me basi tis parapanw stiles kai grammes
+			    /* Creating tables by using the models that have been created further up ( storage and delete table) */
 			    
 			    storageTable = new JTable(storageModel);
-			    deleteTable = new JTable(basketModel);
+			    deleteTable = new JTable(deleteModel);
 		 
-			    // Kathorismos topothetisis tou pinaka
+			    /* Setting Alignment for the tables */
 			    
 			    storageTable.setAlignmentX(Component.LEFT_ALIGNMENT);
 			    deleteTable.setAlignmentX(Component.RIGHT_ALIGNMENT);
 			    
-			    // Dimiourgia scrollPane gia ton pinaka 
+			    /* Creating scroll pane for every table */
 			    
 			    JScrollPane storageScrollPane = new JScrollPane(storageTable);
 			    JScrollPane orderScrollPane = new JScrollPane(deleteTable);
 				storageScrollPane.setBounds(36, 37, 407, 79);
 				orderScrollPane.setBounds(36, 37, 407, 79);
 			    
-			    // Dimiourgia titlou tou pinaka (apothiki), tou pinaka (kalathi) kai tou TextField gia to totalCost
+			    /* Creating label for both two tables (storage table and delete table) */
 				
 			    storageTitle = new JLabel("STORAGE");
 			    deleteTitle = new JLabel("Delete");
 
-				//Δημιουργία μενού
+				/* Creating menus */
+			    
 			    centralMenu_Menu = new JMenu("Central Menu");
 				orderMenu = new JMenu("Order");
 				storageMenu = new JMenu("Storage");
 				statisticsMenu = new JMenu("Statistics");
 				
 				
-				//Δημιουργία επιλογών κάθε μενού
+				/* Creating menu items for every menu */
 	
 				i1 = new JMenuItem("Prescription");  
 			    i2 = new JMenuItem("Supply");  
@@ -140,7 +155,7 @@ public class DeleteFrame extends JFrame {
 			    i5 = new JMenuItem("Show Statistics");
 			    iCentralMenu = new JMenuItem("Go to Central Menu");
 			    
-			    // Eisagwgi ActionListener gia ta pedia tou Menu
+			    /* Adding ActionListener for every item of the menus */
 			    
 			    JTablePopupMenuListener menuListener = new JTablePopupMenuListener();
 			    i1.addActionListener(menuListener);
@@ -150,7 +165,8 @@ public class DeleteFrame extends JFrame {
 			    i5.addActionListener(menuListener);
 			    iCentralMenu.addActionListener(menuListener);
 				
-			    //Eισαγωγή στο μενού
+			    /* Adding items in their menus */
+			    
 			    centralMenu_Menu.add(iCentralMenu);
 			    orderMenu.add(i1);
 			    orderMenu.add(i2);
@@ -158,32 +174,37 @@ public class DeleteFrame extends JFrame {
 			    storageMenu.add(i4);
 			    statisticsMenu.add(i5);
 			    
-			    //Εισαγωγή των μενού στην μπάρα
+			    /* Adding all the menus in the menu bar */
+			    
 			    mb.add(iCentralMenu);
 			    mb.add(orderMenu);
 			    mb.add(storageMenu);
 			    mb.add(statisticsMenu);
 			    mb.add(lb);	
 			    
-			    // Kathorismos topothethshs tou titlou
+			    /* Set Alignment to the labels of the tables */
 			    
 			    storageTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 			    deleteTitle.setAlignmentX(Component.RIGHT_ALIGNMENT);
 			    
 
-				//Δημιουργία panel
+				/* Creating a main panel and a panel that in this will be added all menus */
+			    
 				panel = new JPanel();
 				menuPanel = new JPanel();
 			   
+				/* Set Alignment to the main panel */
+			    
 			    panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
 				panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 						
 			    
-			    //Προσθήκη μενού στο πάνελ
+			    /* Adding menu bar in the menu panel */
+			    
 			    menuPanel.add(mb);
 					    
 			    
-				//Προσθήκη στο panel   
+				/* Adding menu panel, titles of the tables, tables (scroll panes) and confirm button in the main panel */
 			    
 			    panel.add(menuPanel);
 			    
@@ -196,10 +217,12 @@ public class DeleteFrame extends JFrame {
 				panel.add(confirm);
 				
 				
-				//Δημιουργία αντικειμένου Supply απλά για τον έλεγχο
+				/* Creating a variable type of Supply */
+			    
 				order = new Supply(conn);
 				
-				//Epikoinwnia
+				/* Creating communication between the two tables
+				 *  Adding ListSelectionListener  */
 				
 				storageTable.setCellSelectionEnabled(true);
 		 	    ListSelectionModel cellSelectionModel = storageTable.getSelectionModel();
@@ -210,6 +233,8 @@ public class DeleteFrame extends JFrame {
 		 	    	
 		  	      public void valueChanged(ListSelectionEvent e) {
 		  	    	  
+		  	    	/* !e.getValueIsAdjusting is for disable double click  */
+			    
 		  	    	if( !e.getValueIsAdjusting() ) {
 		  	    		
 		  	    	
@@ -217,27 +242,28 @@ public class DeleteFrame extends JFrame {
 		  	    	  String medicineId= "";
 		  	    	  int selectedRow = storageTable.getSelectedRow();
 		  	    	  
-		  	    	 if(selectedRow != -1) {
-		  
+		  	    	  if(selectedRow != -1) {
+		  	    		 
+		  	    		 /* Taking only the two fields of a row that is having a drug(id, name) */
+		  	    		  
 		  	    		 medicineId = (String) storageTable.getModel().getValueAt(selectedRow,0);
 		  	        	  	
 		  	    		 medicineName = (String) storageTable.getModel().getValueAt(selectedRow, 1);
 		  	    		 
+		  	    		 /* Creating a drug by using method searchMedicine from the class Storage */
+		  	    		 
 		  	    		 Drug clickedMedicine = Storage.searchMedicine(medicineName,medicineId);
+		  	    		 
+		  	    		 /* Searching for a drug in the order ( order for deleting drug(s) ) */
 		  	    		 
 		  	    		 if(!order.searchForMedicineInOrder( clickedMedicine.getId())) {
 		  	    			 
-		  	    			 order.addMedicineInTheOrder(clickedMedicine, 1); 		// Arxika 1 kai meta ginetai tropopoihsh
+		  	    			 order.addMedicineInTheOrder(clickedMedicine, 1);				// Adding drug in the deleting order
 		  	    			 
-		  	    			 DefaultTableModel modelForOrderTable = (DefaultTableModel) deleteTable.getModel();
+		  	    			 DefaultTableModel modelForOrderTable = (DefaultTableModel) deleteTable.getModel();		
 		  	    			 
-		  	    			 modelForOrderTable.addRow(new Object[]{clickedMedicine.getId(), clickedMedicine.getName(), 1}); 
-		  	    			 
-		  	    			 for(int i=0;i<Storage.getMedicineList().size();i++) {
-		  	    				 
-		  	    				 int medicineAvailability = Storage.getMedicineList().get(i).getAvailability();
-		  	    				 storageTable.getModel().setValueAt(medicineAvailability, i, 2); 
-		  	    				 }
+		  	    			 modelForOrderTable.addRow(new Object[]{clickedMedicine.getId(), clickedMedicine.getName(), 1});   // Adding row in the deleting table
+		  	    			
 		  	    			 }
 		  	    		 }
 		  	    	 }
@@ -246,6 +272,7 @@ public class DeleteFrame extends JFrame {
 		 	   } );
 		 	   
 		 	   
+		 	  /* Add Listener in the delete table ( right click, deleting from there) */
 		 	   
 		 	  deleteTable.addMouseListener(new MouseAdapter() {
 		 	    	
@@ -254,9 +281,12 @@ public class DeleteFrame extends JFrame {
 		 	    		
 		 	    		 String medicineName = "";
 		 	    		 String medicineId = "";
-
+		 	    		 
+		 	    		 /* Getting selected row */
+		 	    		 
 		 		    	 int selectedRowFromOrderTable = e.getY()/deleteTable.getRowHeight();
 		 		    	  
+		 		    	 /* Getting information from the drug that exists in the row that has been selected */
 		 		    	  
 		 		    	 for (int j = 0; j < 2; j++) {
 		 		        	  
@@ -267,20 +297,29 @@ public class DeleteFrame extends JFrame {
 		 		        	  		medicineName = (String) deleteTable.getModel().getValueAt(selectedRowFromOrderTable, j);
 		 		        	  	
 		 		    	  }
+		 		    	 
+		 		    	/* Creating a drug variable by using method searchMedicine from the class Storage */
 		 		    	  
 		 		    	Drug clickedMedicine = Storage.searchMedicine(medicineName,medicineId);
 		 		    	
+		 		    	/* Checking ifn right click was pressed */
 		 	    		
 		 	    		if( e.getButton() == MouseEvent.BUTTON3) {
+		 	    			
+		 	    			/* Print a message to double ckeck his choice */
 		 	    			
 		 	    			String message = "Would you like to delete this medicine from the list?\n";
 		 	    	        int returnValue = JOptionPane.showConfirmDialog(null, message,"Delete",JOptionPane.YES_NO_OPTION);
 		 	    	        
+		 	    	        /* Checking his answer in the further up window */
+		 	    	        
 		 	    	        if (returnValue == JOptionPane.YES_OPTION) {
 		 	    			
-		 	    			order.deleteMedicineFronTheOrder(clickedMedicine);
+		 	    			order.deleteMedicineFronTheOrder(clickedMedicine);		// Deleting medicine from the delete table 
 		 	    			
 		 	    			String medId = "";
+		 	    			
+		 	    			/* Getting information of drug in the delete table when this is right clicked from there */
 		 	    			
 		 	    			for(int i=0;i<Storage.getMedicineList().size();i++) {
 		 	    				
@@ -294,9 +333,13 @@ public class DeleteFrame extends JFrame {
 		 	    					}
 		 	    				}
 		 	    			
+		 	    			/* Right clicked row is deleted from the delete table */
 		 	    			
 		 	    			((DefaultTableModel) deleteTable.getModel()).removeRow(selectedRowFromOrderTable);
 		 	   	    	  	
+		 	    			/* Changing information of a drug in the storage table 
+		 	    			 * when this drug is right clicked from the delete table */
+		 	    			
 		 	   	    	  	for(int i=0;i<Storage.getMedicineList().size();i++) {
 		 	   	    	  		
 		 	   	    	  		int medicineAvailability = Storage.getMedicineList().get(i).getAvailability();
@@ -310,18 +353,19 @@ public class DeleteFrame extends JFrame {
 		 	    	} 	);
 		 	    
 
-				//Εισαγωγή του panel στο contentpane
+				/* Adding main panel in the content pane of the frame */
 						
 				this.setContentPane(panel);
 				
-				// Set frame in the center of the pc
+				/* Set frame in the center of the screen */
+				
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				int x = (screenSize.width - this.getWidth()) / 3;
 		        int y = (screenSize.height - this.getHeight()) / 3;
 		        this.setLocation(x, y);
 						
 						
-				//Καθορισμός των βασικών χαρακτηριστικών του panel
+				/* Adding trappings of the frame */
 						
 				this.setSize(600,400);
 				this.setTitle("/Supply Chain/Pharmacist/Storage/Delete");
@@ -329,6 +373,8 @@ public class DeleteFrame extends JFrame {
 				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			}
+	
+			/* menu listener */
 			
 			class JTablePopupMenuListener implements ActionListener {
 
@@ -377,18 +423,21 @@ public class DeleteFrame extends JFrame {
 				
 			}
 			
+			/* Button listener (delete button) */
+			
 			
 			class ButtonListenerDeleteButton implements ActionListener {
 				
 				public void actionPerformed(ActionEvent e) {
 					
+					/* Deleting drug from the list of the Storage class and inform base for this deleting */
 					
 					for (int i = 0 ; i<deleteTable.getRowCount(); i++) {
 						String name = (String) deleteTable.getValueAt(i, 1);
 						String id = (String) deleteTable.getValueAt(i, 0);
 						Storage.removeMedicine(name, id);
 						conn.removeDrug(name);
-						//Enhmerwsi ths basis
+						
 					
 					}
 					

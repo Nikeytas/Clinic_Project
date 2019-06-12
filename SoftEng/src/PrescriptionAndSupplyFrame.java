@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -22,14 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class PrescriptionAndSupplyFrame extends JFrame {
 	
@@ -52,39 +46,66 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	
    
 	public PrescriptionAndSupplyFrame(boolean aTypeOfOrder, db connection) {
+		
+		/* Creating the connection with base */
+		
 		conn=connection;
-		// Dimiourgia button gia epikirwsi
+		
+		/* Creating confirm button */
 		
 		confirmButton = new JButton("Confirm Order");
 		
-		/*Prosthiki listener sto confirmButton
-		  Me thn energopoihsh ths epilogis "Confirm Order" adeiazei o pinakas ths paraggelias 
-		  kai taytoxrona enhmerwnetai to katallilo arxeio me tous kwdikous, ta onomata kai tis posotites
-		  twn farmakwn pou yphrxan sthn paraggelia*/
+		/* Adding listener to the confirmButton.
+		 * By the activation of the choice "Confirm Order", the table of the order goes empty at 
+		 * at the same time the program inform a file with the information of the drugs that were 
+		 * in the order. Specifically this file has the codes, the names and the
+		 * quantities of the drugs that were in the order. Furthermore this listener inform the base with the new 
+		 * updates and also it writes down in the base the information of the specific order */
 		
 		confirmButton.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if(typeOfOrder == true) {
+					
+					/* Writing information of drugs that were in the order, to a file */
+					
 					PrescriptionOrdersTemporalBase.writeToOrderFile(order.getListOfMedicines(), order.getQuantityOfMedicines());
+					
+					/* Informing base with the updates(changes) */
+					
 					connection.updateDrugList(Storage.getMedicineList());
+					
+					/* Writing down in the base the information of the order */
+					
 					connection.updateOrderDataBase(order, typeOfOrder);
 					}
 				else if(typeOfOrder == false) {
+					
+					/* Informing base with the updates(changes) */
+					
 					connection.updateDrugList(Storage.getMedicineList());
+					
+					/* Writing down in the base the information of the order */
+					
 					connection.updateOrderDataBase(order,typeOfOrder);
 				}
 					
 				DefaultTableModel dm = (DefaultTableModel) orderTable.getModel();
 				int rowCount = dm.getRowCount();
 				
-				//Remove rows one by one from the end of the table
+				/* Removing rows one by one from the end of the table */
+				
 				for (int i = rowCount - 1; i >= 0; i--) {
 				    dm.removeRow(i);
 				}
 				
+				/* Setting "0" in the field of the total cost */
+				
 				textFieldForCost.setText("0");
+				
+				/* Creating new order ( Prescription or Supply ) */
+				
 				if(typeOfOrder == true)
 					order = new Prescription(conn);
 				else if(typeOfOrder == false)
@@ -93,9 +114,9 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 			}
 		});
 		
-		 /*Prosthiki eikonas kai listener gia aythn
-		 Me thn energopoihsh ths epilogis ths eikonas to programma metaferetai sto arxiko
-		 parathyro tou programmatos*/
+		 /* Adding picture in the program and setting listener on it.
+		  * By activation of this choice ( clicking the picture ) the program goes to 
+		  * the main frame of the software. */
 		
 		ImageIcon icon = new ImageIcon("hospital1.png");
 		JLabel lb = new JLabel(icon);
@@ -111,11 +132,12 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 		}	);
 		
 		
-		// Dimiourgia tou text poy tha periexei to synoliko kostos
+		/* Creating textField which will have the total cost of the orders */
 		
 		textFieldForCost = new JTextField("0");
 		
-		// Anathesi timwn ( 0 gia prescription kai 1 gia supply ) kai prosdiorismos tou typou paraggelias
+		/* Setting value to the variable typeOfOrder ( 0 for Prescription and 1 for Supply )
+		 * and defining  the type of the order */
 		
 		typeOfOrder = aTypeOfOrder;
 		
@@ -125,18 +147,23 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    else if ( typeOfOrder == false) 
 	    	order = new Supply(conn);
 	   
-		// Dimiourgia baras menu
+		/* Creating menu bar */
 		
 		mb = new JMenuBar();
 		
-		// Dimiourgia twn triwn menu
+		/* Creating four menus ( Order, Storage, Statistics, Central Menu ) */
 		
 		orderMenu = new JMenu("Order");
 		storageMenu = new JMenu("Storage");
 		statisticsMenu = new JMenu("Statistics");
 		centralMenu_Menu = new JMenu("Central Menu");
 		
-		// Dimiourgia epilogwn-pediwn gia kathe lista ( Paraggelia, Apothiki, Statistika )
+		/* Creating items-choices for every menu ( Order, Storage, Statistics, Central Menu) 
+		 * Central Menu --> Go to Central Menu
+		 * Order --> Prescription, Supply
+		 * Storage --> Add, Delete
+		 * Statistics --> Show Statistics */
+		
 		
 		i1 = new JMenuItem("Prescription");  
 	    i2 = new JMenuItem("Supply");  
@@ -145,7 +172,8 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    i5 = new JMenuItem("Show Statistics");
 	    iCentralMenu = new JMenuItem("Go to Central Menu");
 	    
-	    // Eisagwgi ActionListener gia ta pedia tou Menu
+	    /* Adding listener for every choice that has been created further up.
+	     * For all the choices of the menus */
 	    
 	    JTablePopupMenuListener listener = new JTablePopupMenuListener();
 	    i1.addActionListener(listener);
@@ -155,7 +183,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    i5.addActionListener(listener);
 	    iCentralMenu.addActionListener(listener);
 	    
-	    // Eisagwgi twn pediwn sto antistoixo menu
+	    /* Adding the items-choices to their menu */
 	    
 	    centralMenu_Menu.add(iCentralMenu);
 	    
@@ -167,7 +195,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    
 	    statisticsMenu.add(i5);
 	    
-	    // Eisagwgi twn menu sth bara menu
+	    /* Adding menus to the menu bar */
 	    
 	    mb.add(centralMenu_Menu);
 	    mb.add(orderMenu);
@@ -175,7 +203,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    mb.add(statisticsMenu);
 	    mb.add(lb);
 	    
-	    // Dimiourgia model kai sthlwn-kathgoriwn gia tous 2 pinakes ( apothikis kai paraggelias )
+	    /* Creating model and columns-categories for the two talbes ( Tables: Storage, Order) */
 	    
 	    storageModel = new DefaultTableModel();
 	    basketModel = new DefaultTableModel();
@@ -188,7 +216,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    basketModel.addColumn("Name");
 	    basketModel.addColumn("Quantity");
 	    
-	 // Eisagwgi twn farmakwn pou briskontai sthn apothiki tou iatreiou, ston pinaka pou antistoixizetai se aythn
+	    /* Adding drugs that exist in the storage of the clinic, to the storage table */
 	    
 	    String medicineName = null;
 	    String medicineCode = null;
@@ -196,61 +224,65 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	    
 	    for(int i=0;i<Storage.getMedicineList().size();i++) {
 	    	
+	    	/* Getting information for every drug that exist in the storage of the clinic ( Name, Id, Availability ) */
+	    	
 	    	medicineName = Storage.getMedicineList().get(i).getName();
 	    	medicineCode = Storage.getMedicineList().get(i).getId();
 	    	medicineAvailability = Storage.getMedicineList().get(i).getAvailability();
+	    	
+	    	/* Adding new row to the storage model */
+	    	
 	    	storageModel.addRow(new Object[] {medicineCode,medicineName,medicineAvailability});
 	    }
 	    
-	    // Dimiourgia tou pinaka me basi tis parapanw stiles kai grammes (parathetontas san parametro ta model)
+	    /* Creating tables by using the models from further up ( Storage table and Order table )*/
 	    
 	    storageTable = new JTable(storageModel);
 	    orderTable = new JTable(basketModel);
 	    
 	    
-	    // Kathorismos topothetisis tou pinaka
+	    /* Setting alignment for both tables */
 	    
 	    storageTable.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    orderTable.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	    
-	    // Dimiourgia scrollPane gia ton pinaka 
+	    /* Creating scrollPane for both tables  */
 	    
 	    JScrollPane storageScrollPane = new JScrollPane(storageTable);
 	    JScrollPane orderScrollPane = new JScrollPane(orderTable);
 		storageScrollPane.setBounds(36, 37, 407, 79);
 		orderScrollPane.setBounds(36, 37, 407, 79);
 	    
-	    // Dimiourgia titlou tou pinaka (apothiki), tou pinaka (kalathi) kai tou TextField gia to totalCost
+	    /* Creating label for both tables ( Storage table and Order table ) and also 
+	     * creating label for the text field that will have the total cost of every order*/
 		
 	    storageTitle = new JLabel("STORAGE");
 	    orderTitle = new JLabel("Basket");
 	    totalCostTitle = new JLabel("Total Cost");
 	    
 	    
-	    // Kathorismos topothethshs tou titlou
+	    /* Setting alignment for storage and order title */
 	    
 	    storageTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    orderTitle.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	    
-	    // Dimiourgia Panel
+	    /* Creating two panels. One panel for the menus and one panel that will be the main panel of the frame */
 	    
 	    menuPanel = new JPanel();
 	    panel = new JPanel();
 	    
-	    // Kathorismos tou tropou topothetisis twn antikeimenwn sto kathe panel panel ( px katakorifa, orizontia )
-	    
+	    /* Setting the way that objects will be put in every panel ( for example vertically, horizontally ) */
 	    
 	    panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
 	    panel.setAlignmentX(Component.BOTTOM_ALIGNMENT);
 	    
-	    
-	    // Prosthiki olwn twn menu sto panel 
+	    /* Adding the menu bar in the menu panel */ 
 	    
 	    menuPanel.add(mb);
 	    
-	    
-	    // Prosthiki tou parapanw panel sto teliko panel 
-	    // Epipleon prosthiki tou pinaka (apothiki) kai tou titlou tou sto teliko panel
+	    /* Adding the menu panel in the main panel of the frame.
+	     * Furthermore this part of the code it is adding storage and order table and their labels 
+	     * in the main panel of the frame. */
 	   
 	    panel.add(menuPanel);
 	 
@@ -265,7 +297,9 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 	
 	    panel.add(confirmButton);
 	    
-	 // Epikoinwnia pinakwn ( Epilogi apo thn apothiki kai gemisma kalathiou me farmaka )
+	    /* Creating the communication between the two tables ( Storage table and Order table).
+	     * The way that the user can choose transfer one drug from the storage table
+	     * to the order table. In this part of the code it is used a ListSelectionListener. */
 	    
 	    storageTable.setCellSelectionEnabled(true);
  	    ListSelectionModel cellSelectionModel = storageTable.getSelectionModel();
@@ -274,6 +308,8 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  	    cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
  	    	
  	      public void valueChanged(ListSelectionEvent e) {
+ 	    	 
+ 	    	/* This check succeeds to disable double clicking. */
  	    	  
  	    	if(!e.getValueIsAdjusting() ) {
  	    		
@@ -281,33 +317,37 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  	    	  String medicineName = "";
  	    	  String medicineCode = "";
  	    	  String totalCost = "";
-   	
- 	    	 int selectedRow = storageTable.getSelectedRow();
  	    	 
+ 	    	 /* Getting the row that user has selected */
+ 	    	  
+ 	    	 int selectedRow = storageTable.getSelectedRow();
+ 	    	 	 
  	    	 if(selectedRow != -1) {
  	    		
- 	    	 // Apothikeyetai se metablites o kwdikos kai to onoma tou farmakou pou epilexthike apo ton prwto pinaka (apothikis)
+ 	    	 /* It is saved in to variables the code and the name of the drug 
+ 	    	  * that has been selected from the storage table by the user */
  	    	
  	    	 medicineCode = (String) storageTable.getModel().getValueAt(selectedRow,0);
  	        
  	         medicineName = (String) storageTable.getModel().getValueAt(selectedRow, 1);
  	        	  	
  	    	  
- 	    	  // Dimiourgeitai antikeimeno typou medicine me xrisi twn 2 parapanw metablitwn
+ 	    	  /* Creating an object type of Drug by using the two variables that have been created further up */
  	       
  	    	  Drug clickedMedicine = Storage.searchMedicine(medicineName,medicineCode);		
  	    	  
  	    	 
- 	    	  // Elegxetai an to dhmiourgimeno farmako yparxei mesa sthn lista ths twrinis paraggelias
+ 	    	  /* Checking if the object that it has been created further up exists in the list of a specific order */
  		    
  	    	  if(!order.searchForMedicineInOrder( clickedMedicine.getId())) {
  	    		  
- 	    		  // Protrepei ton xristi na plhktrologisei ena noumero pou tha apotelesei thn posotita tou farmakou
- 	    		  // pou tha eisagei sthn lista paraggelias
+ 	    		  /* Showing a message that incites the user to write a number.
+ 	    		   * This number will be the quantity of the drug 
+ 	    		   * that will be added in the list of an order */
  	    		  
  	    		  String inputAvailabilityString = JOptionPane.showInputDialog(null,"Enter quantity of the medicine you want to buy: ");
  	    		  
- 	    		  // Elegxos gia thn periptwsh pou o xristis den plhktrologisei akeraio arithmo
+ 	    		  /* Checking if the user didn't write an integer number */
  	    		  
  	    		  if(inputAvailabilityString == null || inputAvailabilityString.equals("") )
  	    			  JOptionPane.showMessageDialog(null,"You dind't enter any number.","Error..",JOptionPane.ERROR_MESSAGE);
@@ -317,41 +357,43 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 
  	    		  else {
  	    			  
- 	    			  //Metatropi ths posotitas poy plhktrologithike apo String se Integer
+ 	    			  /* Converting the quantity that user had wrote in the frame, from String to Integer. */
  	    			  
  	    			  int inputAvailabilityInteger = Integer.parseInt(inputAvailabilityString);
  	    			  
- 	    			  // Elegxos an h posotita poy plhktrologithike einai mikroteri tou midenos
+ 	    			  /* Checking if the number that user had wrote in the frame, is less than zero. */
  	    			  
  	    			  if(inputAvailabilityInteger <= 0) 
  	    				  JOptionPane.showMessageDialog(null,"Invalid quantity of medicine.","Error..",JOptionPane.ERROR_MESSAGE);
  	    			  
- 	    			  // Elegxos an h posotita pou plhktrologithike einai egyri me basi to apothema poy yparxei sto iatreio 
+ 	    			  /* Checking if the quantity that user had entered is valid, 
+ 	    			   * according to the availability of the drug that has been chosen. */
  	    			  
  	    			  else if(typeOfOrder == true && !(clickedMedicine.getAvailability() >= inputAvailabilityInteger))
 	    			  		JOptionPane.showMessageDialog(null,"Not enough stocks for this medicine.","Error..",JOptionPane.ERROR_MESSAGE);
  	    			  
  	    			  else  {
  	    				  
- 	    				  	// Prosthithetai to epilegmeno farmako (apo thn apothiki ) sthn lista paraggelias
+ 	    				  	/* Adding clicked drug ( from the storage ) in the order list. */
  	    		  
  	    			  		order.addMedicineInTheOrder(clickedMedicine, inputAvailabilityInteger); 	
  	    			  		
- 	    			  		// Periorizoyme to total cost pou tha emfanizetai sto na exei 2 mono dekadika psifia
+ 	    			  		/* Setting a specific format about the total cost of an order that will be appeared. */
  	    			  		
  	    			  		DecimalFormat df = new DecimalFormat("##.##");
 	    			
  	    			  		totalCost = String.valueOf(df.format(order.getTotalCost()));
-	     		    
+ 	    			  		
  	    			  		textFieldForCost.setText(totalCost);
  		    
  	    			  		DefaultTableModel modelForOrderTable = (DefaultTableModel) orderTable.getModel();
  	    			  		
- 	    			  		// Prostithetai to epilegmeno farmako (apo thn apothiki) ston neo pinaka (ths paraggelias)
+ 	    			  		/* Adding the clicked drug ( from the storage ) 
+ 	    			  		 * in the second table ( to the order table ). */
  	    			  		
  	    			  		modelForOrderTable.addRow(new Object[]{clickedMedicine.getId(), clickedMedicine.getName(), inputAvailabilityInteger}); 
  	    			  		
- 	    			  		// Metatrepoume katallila thn diathesimotita toy farmakou pou mpike sthn paraggelia
+ 	    			  		/* Changing the availability of the drug that has been clicked */
  	    			  		
  	    			  		for(int i=0;i<Storage.getMedicineList().size();i++) {
  	    		  
@@ -367,7 +409,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  	      
  	    } ); 
 
- 	    // Listener gia thn diagrafi farmakou apo ton pinaka paraggelias
+ 	    /* Creating Listener for the deletion of a drug for the order table. */
  	    
  	    orderTable.addMouseListener(new MouseAdapter() {
  	    	
@@ -378,11 +420,12 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  		    	  String medicineCode = "";
  		    	  String totalCost = "";
  		    	  
- 		    	 // Entopisi tou farmakou pou epilexthike
+ 		    	 /* Getting selected row */
 
  		    	 int selectedRowFromOrderTable = e.getY()/orderTable.getRowHeight();
  		    	  
- 		    	 // Katagrafi twn stoixeiwn (code,name) tou farmakou pou epilexthike
+ 		    	 /* Getting information about the drug that has been chosen.
+ 		    	  * ( Code, Name ) */
  		    	 
  		    	 for (int j = 0; j < 2; j++) {
  		        	  
@@ -394,31 +437,33 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  		        	  	
  		    	  }
  		    	  
- 		    	// Dimiourgia antikeimenou typou Medicine
+ 		    	/* Creating an object type of Drug by using the two variables from further up ( medicineCode, medicineName ). */
  		    	 
  		    	Drug clickedMedicine = Storage.searchMedicine(medicineName,medicineCode);
  		    	
- 	    		// MouseEvent.BUTTON3 gia na elecsei an patithike decsi klik apo ton xristi
+ 	    		/* MouseEvent.BUTTON3 for checking if right click has been confirmed from the user. */
  		    	
  	    		if( e.getButton() == MouseEvent.BUTTON3) {
  	    			
- 	    			// Emfanisi katallilou minimatos gia to an o xristis ontws epithymei na diagrapsei to epilegmeno
- 	    			// farmako apo thn lista paraggelias
+ 	    			/* Printing message for the user to confirm his choice about deleting the clicked drug
+ 	    			 * from the order list. */
+ 	    			
  	    			String message = "Are you sure you want to delete this medicine from the list?\n";
  	    	        int returnValue = JOptionPane.showConfirmDialog(null, message,"Delete",JOptionPane.YES_NO_OPTION);
  	    	        
- 	    	        // Elegxos an patithei h epilogi "yes" apo ton xristi
+ 	    	        /* Checking if the button yes has been chosen from the user. */
  	    	        
  	    	        if (returnValue == JOptionPane.YES_OPTION) { 	
  	    		        
- 	    	        	// Diagrafetai to farmako apo thn lista paraggelias
+ 	    	        	/* Deleting the drug from the order list */
  	    	        	
  	    		    	order.deleteMedicineFronTheOrder(clickedMedicine);
  	 	    			
  	 	    			String medCode = "";
  	 	    			
- 	 	    			// Metatrepetai katallila (ston pinaka apothikis ) h diathesimothta tou farmakou pou epilexthike 
- 	 	    			//na diagrafei apo ton pinaka paraggelias
+ 	 	    			/* Updating the storage table after the deletion of the drug. More specifically, this part of the code
+ 	 	    			 * it is updating the availability in the storage table of the drug 
+ 	 	    			 * that has been chosen from the user. */
  	 	    			 
  	 	    			for(int i=0;i<Storage.getMedicineList().size();i++) {
  	 	    				
@@ -432,11 +477,11 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  	 	    					}
  	 	    				}
  	 	    			
- 	 	    			// Diagrafetai to farmako pou epilexthike apo ton pinaka paraggelias
+ 	 	    			/* Deleting the drug, that has been chosen by the user, from the order table. */
  	 	    			
  	 	    			((DefaultTableModel) orderTable.getModel()).removeRow(selectedRowFromOrderTable);
  	 	    			
- 	 	    			// Periorizoyme to total cost pou tha emfanizetai sto na exei 2 mono dekadika psifia
+ 	 	    			/* Setting a specific format about the total cost of an order that will be appeared. */
  	 	    			
  	 	    			DecimalFormat df = new DecimalFormat("#.##");
  	 	    			
@@ -444,7 +489,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  	 	     		    
  	 	   	    	  	textFieldForCost.setText(totalCost);
  	 	   	    	  	
- 	 	   	    	  	// Metatrepetai katallila h diathesimotita tou farmakou pou epilexthike na diagrafei apo ton pinaka paraggelias
+ 	 	   	    	  	/* Changing the availability of the drug that has been clicked */
  	 	   	    	  	
  	 	   	    	  	for(int i=0;i<Storage.getMedicineList().size();i++) {
  	 	   	    	  		
@@ -460,17 +505,18 @@ public class PrescriptionAndSupplyFrame extends JFrame {
  	    
  	    
  	   
-	    // Eisagwgi tou panel sto ContentPane
+	    /* Adding the main panel in the content pane. */
 	
 		this.setContentPane(panel);
 		
-		// Set frame in the center of the pc
+		/* Set frame in the center of the screen */
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screenSize.width - this.getWidth()) / 3;
 		int y = (screenSize.height - this.getHeight()) / 3;
 		this.setLocation(x, y);
 		
-		// Kathorismos basikwn xaraktiristikwn tou frame
+		/* Adding trappings of the frame */
 		
 		this.setSize(600,400);
 		
@@ -486,7 +532,10 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 		
 		}
 	
-	// Methodos pou epistrefei boolean timi analoga, an ena string einai Integer h oxi
+	/* Method which returns a boolean value. This method checks if a String is Integer or not.
+	 * Input: String str
+	 * Output: boolean */
+	
 	public static boolean isNumeric(String str) { 
 		  try {  
 		    Integer.parseInt(str);  
@@ -496,7 +545,7 @@ public class PrescriptionAndSupplyFrame extends JFrame {
 		  }  
 		}
 	
-// Listener gia thn katallili metafora parathirwn tou programmatos analoga thn epilogi tou xristi apo to menu bar
+/* Listener that determines the communication and the metaphor among the frames of the program  */
 	
 class JTablePopupMenuListener implements ActionListener {
 

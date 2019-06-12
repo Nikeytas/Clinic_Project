@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-class ManagerChoiceFrame extends JFrame{
+class ManagerChoiceFrame extends JFrame{ //This name was <GUIDieuthinti2> 
 		private JButton s_chain =new JButton("Supply Chain");
 		private JButton shift =new JButton("Shift Work");
 

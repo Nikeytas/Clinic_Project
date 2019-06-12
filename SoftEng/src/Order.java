@@ -13,7 +13,8 @@ public abstract class Order {
 	protected String date;
 	protected int code;
 	
-	// prosthetei ena neo farmako sth lista ths syntaghs me ta farmaka kai thn posotita tou sthn antistoixi thesi sth lista ths syntaghs me tis posothtes.
+	/* Adds a new medicine in ArrayList of existing medicines and its quantity
+	 * in the equivalent position in ArrayList of quantities of the existing medicines. */
 	
 	public void addMedicineInTheOrder (Drug orderedMedicine,int quantity) {
 		
@@ -22,30 +23,39 @@ public abstract class Order {
 		
 	}
 	
+	/* Searches and deletes a medicine from existing medicines in Order. 
+	 * Input: Drug orderedMedicine
+	 * Output: - */
+	
 	public abstract void deleteMedicineFronTheOrder(Drug orderedMedicine);
 	
-	// Tha yparxei ena arxeio me tis paraggelies ( Sto telos tha enhmerwnetai h bash apo auta ta arxeia ).
-	// Csexwristo arxeio gia tis syntages kai csexwristo gia tous anefodiasmous.
-	// To kathe arxeio tha grafetai-enhmerwnetai me tis nees syntages h anefodiasmous.
-	// H diakrisi metacsy twn 2 arxeiwn ginetai me basi to "fileName".
-	
-	//Epistrefei thn lista me ta farmaka.
+	/* Returns list of medicines. 
+	 * Input: -
+	 * Output: ArrayList<Drug> medicines. */
 	
 	public ArrayList<Drug> getListOfMedicines(){
 		
 		return medicines;
 	}
 	
-	// Epistrefei thn lista me tis posotites twn farmakwn.
+	/* Returns list of quantities. 
+	 * Input: -
+	 * Output: ArrayList<Integer> quantityOfMedicines. */
 	
 	public ArrayList<Integer> getQuantityOfMedicines(){
 		
 		return quantityOfMedicines;
 	}
 	
-	// Abstract synarthsh poy ypologizei to synoliko kostos ths syntaghs.
+	/* Abstract function which calculates the total cost of the order. 
+	 * Input: -
+	 * Output: double value of order's total cost. */
 	
 	public abstract double getTotalCost();
+	
+	/* Prints every medicine included in the order. 
+	 * Input: -
+	 * Output: Prints every medicine included in order. */
 	
 	public void printListOfMedicines() {
 		
@@ -61,6 +71,10 @@ public abstract class Order {
 		}
 	}
 	
+	/* Returns boolean value whether a medicine exists or not in the order. 
+	 * Input: String medicineId
+	 * Output: boolean value */
+	
 	public boolean searchForMedicineInOrder(String medicineId) {
 		
 		for(int i=0;i<medicines.size();i++) {
@@ -72,6 +86,10 @@ public abstract class Order {
 		return false;
 	}
 	
+	/* Clears ArrayList for medicines of the order and ArrayList for quantities of these medicines. 
+	 * Input: -
+	 * Output: - */
+	
 	public void clearOrder() {
 		
 		ArrayList<Drug> med = getListOfMedicines();
@@ -80,6 +98,10 @@ public abstract class Order {
 		med.clear();
 		quantityOfMed.clear();
 	}
+	
+	/* Returns a string that contains the current date. 
+	 * Input: -
+	 * Output: String type of current date. */ 
 	
 	public String getDateTime() {
 		

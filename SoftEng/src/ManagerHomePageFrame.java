@@ -29,7 +29,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 
-public class ManagerHomePageFrame extends JFrame {
+public class ManagerHomePageFrame extends JFrame { //This name was < GUIEfimeries>
 	
 	private JPanel centralPanel,mainPanel ,secondPanel, menuPanel;
 	private JPanel EmployeeMainPanel, EmployeePanel_1,  EmployeePanel_2,  EmployeePanel_3;
